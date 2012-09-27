@@ -1,0 +1,27 @@
+<div class="span9">
+  <table class="table span5">
+    <tr>        
+        <td>ชื่อไฟล์</td>
+    </tr>
+    <tr ng-repeat="file in file_list" >        
+        <td>
+            <span>{{file.filename}}</span>
+            <span class="pull-right">
+                <a href="/files/{{file._id}}" target="_blank"><i class=" icon-file"></i></a> | <i class="icon-remove" ng-click="del(file._id)"></i>
+            </span>
+            <br>            
+            <small class="muted pull-right">{{file._id}}</small>            
+        </td>        
+    </tr>
+    <tr>
+      <td colspan="2">
+        <a class="btn btn-primary"  href="/#upload">
+            <i class="icon-upload icon-white"></i>
+            Add Document                
+        </a>
+      </td>
+    </tr>
+  </table>
+  
+    
+</div>

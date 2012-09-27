@@ -1,0 +1,55 @@
+<div class="row-fluid">
+  
+  <div class="span12">  
+
+    <iframe id="upload_target" 
+	name="upload_target" 
+	style="width:0;height:0;border:0px solid #fff;"> 
+    </iframe>
+    
+       
+	
+    <legend>Upload เอกสาร</legend>
+    <label>ชื่อเอกสาร</label>
+	<div class="controls">
+	    <input class="span5" type="text" placeholder="กรอกชื่อเอกสาร" ng-model="title">
+	</div>
+    </label>
+    <form id="file_upload_form" method="post" enctype="multipart/form-data" action="/upload" target="upload_target" class="form-horizontal">            
+      
+    <span class="btn btn-success fileinput-button">
+	<i class="icon-plus icon-white"></i>
+	<span>Select File</span>
+	<input type="file" name="file" id="file" onchange="angular.element(this).scope().setFile(this)"/>
+    </span>
+    
+    <button type="submit" class="btn btn-primary start">
+	<i class="icon-upload icon-white"></i>
+	<span>Start Upload</span>
+    </button>                
+        
+    </form>
+    
+ 
+    <ul>
+	<li ng-repeat="file in file_item.files">{{file.filename}} </li>
+    </ul>
+
+  
+    <span>
+	<span ng-show="theFile">
+	    <i class="icon-file"></i>
+	    {{theFile.name}}
+	</span>    
+	<span ng-switch on="success" >
+	    <span ng-switch-when="true">
+		<i class="icon-ok"></i>
+	    </span>
+	    <span ng-switch-when="false">
+		<i class="icon-info-sign"></i>
+		{{message}}
+	    </span>  
+	    <span ng-switch-default></span>              
+	</span>
+    </span>    
+</div>
