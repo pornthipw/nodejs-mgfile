@@ -82,12 +82,14 @@ function FileController($scope,$routeParams,FileDB){
     
     
     $scope.currentPage = 0;
+    $scope.page = 0;
     $scope.pageSize = 2;
     $scope.numberOfPages=function(){
         var totalPage = Math.ceil($scope.file_list.length/$scope.pageSize);       
+        console.log("totalPage"+totalPage);
         return totalPage;          
     }
-    for (var i=0; i<45; i++) {
+    for (var i=0; i<$scope.file_list.length; i++) {
         $scope.file_list.push("File "+i);
     }
     

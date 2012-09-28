@@ -18,15 +18,17 @@
         </td>
         <td>{{file.uploadDate | date:'MMM d, yyyy HH:mm' }}</td>        
     </tr>
-    <!--
     <tr>
         <td colspan="2"class="pagination span7">
             <ul>
-                <li ><a href="" ng-disabled="currentPage == 0"  ng-click="currentPage=currentPage-1">Prev</a></li>
+                <li ><a href="" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">Prev</a></li>
+                <!--<li><a href="">{{page}}</a></li>-->
+                <!--<li ng-repeat="page in totalPage" >{{page}}<a href="#">{{page+1}}</a></li>-->
                 <li><a href="" ng-disabled="currentPage >= file_list.length/pageSize - 1" ng-click="currentPage=currentPage+1">Next</a></li>
             </ul>
         </td>
-    </tr>---->
+    </tr>
+    
     <tr>
         <td colspan="2">
              <button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
