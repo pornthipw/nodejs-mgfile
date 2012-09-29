@@ -1,37 +1,43 @@
 var app = angular.module('gradfile', ['file_service']);
 
+
+google.load('visualization', '1');
+google.setOnLoadCallback(onLoad);
+
+function onLoad() {
+  console.log('Google Lib is loaded');
+};
+
 app.config(function($routeProvider) {
     $routeProvider.
 	//when('/', {controller:FileController, templateUrl:'/static/index.html'}).    
-	//when('/upload', {controller:UploadController, templateUrl:'/static/upload.html'}).
-    when('/list', {controller:FileController, templateUrl:'/static/index.html'})
+    when('/csv', {controller:CSVController, templateUrl:'static/csv.html'}).
+    when('/list', {controller:FileController, templateUrl:'static/index.html'})
 });
-/*
-function UploadController($scope, $routeParams,FileDB) {  
-    console.log('Execute');
 
-    $('iframe#upload_target').load(function() {
-        var data = $.parseJSON($('iframe#upload_target').contents().find("body")[0].innerHTML);
-        if(data.success) {
-            $scope.$apply(function(){
-            $scope.success = true;
-            });
-        } else {
-            $scope.$apply(function() {
-            $scope.success = false;
-            $scope.message = data.message;
-            });
-        }
-    });      
-
-    $scope.setFile = function(element) {
-        $scope.$apply(function() {
-            $scope.theFile = element.files[0];
-        });
-    };
+function CSVController($scope) {      
+  // test by google spreadsheet
+  var dataSourceUrl = "https://docs.google.com/spreadsheet/tq?key=0AvJYqJoWtyhodGtSYVNDWWppS21WTlZyUk41V3g4TXc&headers=-1#";
+  var query = new google.visualization.Query(dataSourceUrl);
+  query.send(function(response) {
+    var data = response.getDataTable();
+    console.log('data received');
+    console.log(JSON.parse(data.toJSON()));
+    $scope.$apply(function() {
+      $scope.csv = JSON.parse(data.toJSON());    
+    });
+  });      
+  
+  $scope.removeColumn = function(col) {
+    col.removed=true;
+  };
+  
+  $scope.test = function() {
+    console.log($scope.csv);
+  };
     
 };
-*/
+
 
 function FileController($scope,$routeParams,FileDB){
     console.log('Execute');            
@@ -67,11 +73,7 @@ function FileController($scope,$routeParams,FileDB){
     };
     
     $scope.file_list = FileDB.query();
-    
-    
-    
-    
-        
+                        
     $scope.del = function(id) {
         console.log(id);
         FileDB.remove({id:id}, function(docs) {
@@ -79,8 +81,7 @@ function FileController($scope,$routeParams,FileDB){
             $scope.file_list = FileDB.query();    
         });
     };
-    
-    
+        
     $scope.currentPage = 0;
     $scope.page = 0;
     $scope.pageSize = 2;

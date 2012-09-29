@@ -49,10 +49,29 @@
 <div class="span7"> 
     <button type="button" data-toggle="modal" data-target="#uploadFileModal">Launch modal</button>
 </div>
-            <!--
-          <a href="#myModal" role="button" class="btn" data-toggle="modal" data-target="#myModal"> 
-              <i class="icon-upload icon-white"></i> Add Document                
-          </a>  -->                          
+
+<style>
+  .fileinput-button {
+    position: relative;
+    overflow: hidden;
+    float: left;
+    margin-right: 4px;
+  }
+  
+  .fileinput-button input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    border: solid transparent;
+    border-width: 0 0 100px 200px;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -moz-transform: translate(-300px, 0) scale(4);
+    direction: ltr;
+    cursor: pointer;
+  }    
+</style>
 <iframe id="upload_target" 	name="upload_target" 	style="width:0;height:0;border:0px solid #fff;"> 
 </iframe>  
 

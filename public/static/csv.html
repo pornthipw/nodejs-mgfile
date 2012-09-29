@@ -1,0 +1,26 @@
+<div>
+  <form class="form-inline">
+    <input type="text" ng-model="todoText" placeholder="#column (e.g., col1, col2)">      
+    <input class="btn btn-primary" type="submit" value="add">    
+  </form>
+  
+  <button ng-click="test()" class="btn btn-primary">Test</button>
+  
+  <table class="table table-bordered table-condensed table-hover">
+    <thead>
+      <tr>
+        <th></th>        
+        <th ng-repeat='col in csv.cols'>          
+          <input ng-hide='col.removed' type="text" ng-model='col.label' placeholder="{{col.label}}">
+          <button class="btn btn-mini btn-link" ng-click="removeColumn(col)"><i class="icon-remove"></i></button>          
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat='row in csv.rows'>
+        <td><input type="checkbox" ng-model="row.selected"></td>
+        <td ng-repeat='content in row.c'>{{content.v}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
