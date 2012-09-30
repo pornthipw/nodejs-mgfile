@@ -68,7 +68,7 @@ function FileController($scope,$routeParams,FileDB){
     
     $scope.file_list = FileDB.query();
     
-    
+    $('.dropdown-toggle').dropdown()
     
     
         

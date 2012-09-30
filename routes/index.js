@@ -6,7 +6,7 @@ var config = require('../config');
 
 exports.index = function(req, res) {
   var ctx = {
-     title : 'Graduate SAR', 
+     title : 'Graduate File', 
   };    
   res.render('index', ctx);
 };
@@ -103,7 +103,7 @@ exports.listFile = function(req, res, next) {
 exports.storeFile = function(req, res, next) {      
   
   if(req.files.file) {          
-    var gridStore = new mongodb.GridStore(req.database, new mongodb.ObjectID(),req.files.file.name, 'w', {content_type:req.files.file.type});    
+    var gridStore = new mongodb.GridStore(req.database, new mongodb.ObjectID(),req.files.file.name, 'w', {content_type:req.files.file.type,metadata: {'title':req.body.title}});    
     gridStore.open(function(err, gridStore) {
       gridStore.writeFile(req.files.file.path, function(err, doc) {                
         if(err) {          
