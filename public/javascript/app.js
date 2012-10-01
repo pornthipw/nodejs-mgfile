@@ -33,9 +33,9 @@ function UploadController($scope, $routeParams,FileDB) {
 };
 */
 
-function FileController($scope,$routeParams,FileDB){
-    console.log('Execute');            
-    
+function FileController($scope,$routeParams,FileDB) {        
+    $scope.file_list = FileDB.query();
+        
     $scope.showFormPage = false;
     $scope.viewForm = function() {
         $scope.showFormPage = true;
@@ -65,12 +65,8 @@ function FileController($scope,$routeParams,FileDB){
             $scope.theFile = element.files[0];
         });
     };
-    
-    $scope.file_list = FileDB.query();
-    
-    $('.dropdown-toggle').dropdown()
-    
-    
+            
+    $('.dropdown-toggle').dropdown();
         
     $scope.del = function(id) {
         console.log(id);
@@ -78,20 +74,21 @@ function FileController($scope,$routeParams,FileDB){
             console.log('remove');
             $scope.file_list = FileDB.query();    
         });
-    };
-    
+    };    
     
     $scope.currentPage = 0;
     $scope.page = 0;
-    $scope.pageSize = 2;
-    $scope.numberOfPages=function(){
+    $scope.pageSize = 2;    
+    
+    $scope.numberOfPages=function() {
+        $scope.pages = [];
         var totalPage = Math.ceil($scope.file_list.length/$scope.pageSize);       
-        console.log("totalPage"+totalPage);
+        console.log("totalPage"+totalPage);        
+        for(var i=0;i<totalPage;i++) {
+          $scope.pages.push(i+1);
+        }
         return totalPage;          
-    }
-    for (var i=0; i<$scope.file_list.length; i++) {
-        $scope.file_list.push("File "+i);
-    }
+    };        
     
 
 };
