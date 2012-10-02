@@ -27,9 +27,9 @@
           <small class="muted pull-right">{{file._id}}</small>-->  
         <span class="pull-right">  
           <div class="dropdown">
-            <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Manage File <b class="caret"></b></a>
+            <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i><b class="caret"></b></a>
               <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
-                <li><a tabindex="-1" href="/files/{{file._id}}" target="_blank"><i class=" icon-file"></i> View File</a></li>
+                <li><a tabindex="-1" href="files/{{file._id}}" target="_blank"><i class=" icon-file"></i> View File</a></li>
                 <li><a tabindex="-1" href="#/list" ng-click="del(file._id)"><i class="icon-remove" ></i> Delete File</a></li>
                 <li class="divider"></li>
                 <li><a tabindex="-1" href="#/list">Separated link</a></li>
@@ -60,7 +60,7 @@
  <!----****************- start Form ---->
 <iframe id="upload_target" 	name="upload_target" 	style="width:0;height:0;border:0px solid #fff;"> </iframe>  
 
-<form id="file_upload_form" method="post" enctype="multipart/form-data" action="/upload" target="upload_target" class="form-horizontal">                  
+<form id="file_upload_form" method="post" enctype="multipart/form-data" action="upload" target="upload_target" class="form-horizontal">                  
   <div class="modal hide fade" id="uploadFileModal">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

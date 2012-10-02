@@ -4,7 +4,7 @@ app.config(function($routeProvider) {
     $routeProvider.
 	//when('/', {controller:FileController, templateUrl:'/static/index.html'}).    
 	//when('/upload', {controller:UploadController, templateUrl:'/static/upload.html'}).
-    when('/list', {controller:FileController, templateUrl:'/static/index.html'})
+    when('/list', {controller:FileController, templateUrl:'static/index.html'})
 });
 /*
 function UploadController($scope, $routeParams,FileDB) {  
@@ -80,13 +80,8 @@ function FileController($scope,$routeParams,FileDB) {
     $scope.page = 0;
     $scope.pageSize = 2;    
     
-    $scope.numberOfPages=function() {
-        $scope.pages = [];
-        var totalPage = Math.ceil($scope.file_list.length/$scope.pageSize);       
-        console.log("totalPage"+totalPage);        
-        for(var i=0;i<totalPage;i++) {
-          $scope.pages.push(i+1);
-        }
+    $scope.numberOfPages=function() {        
+        var totalPage = Math.ceil($scope.file_list.length/$scope.pageSize);               
         return totalPage;          
     };        
     
