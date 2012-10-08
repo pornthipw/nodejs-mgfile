@@ -5,10 +5,14 @@ var config = require('../config');
 //Add routes from other files
 
 exports.index = function(req, res) {
+  console.log('User name :' + req.user);
   var ctx = {
      title : 'Graduate File', 
-  };    
-  res.render('index', ctx);
+  }; 
+  res.render('index', { user: req.user});   
+  //res.send(JSON.stringify({success:true})); 
+  //res.send(req.user + ' users online');
+  //res.render('index', ctx);
 };
 
 exports.getFile = function(req, res, next) {

@@ -55,7 +55,6 @@
 </div>
 
 
-           
           
  <!----****************- start Form ---->
 <iframe id="upload_target" 	name="upload_target" 	style="width:0;height:0;border:0px solid #fff;"> </iframe>  
@@ -111,7 +110,19 @@
     </div>
   </div>
 
-
 </form>
+<!--
+<iframe id="upload_target1" 	name="upload_target1" 	style="width:0;height:0;border:0px solid #fff;"> </iframe>  
 
-
+<form id="file_upload_form1" method="post"  action="login" target="upload_target1" class="form-horizontal">   -->
+<form action="login" method="post">
+    <div>
+    <label>Username:</label>
+    <input type="text" name="username"/><br/>
+    </div><div>
+    <label>Password:</label>
+    <input type="password" name="password"/>
+    </div><div>
+    <input type="submit" value="Log In"/>
+    </div>
+</form>

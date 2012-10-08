@@ -2,39 +2,33 @@ var app = angular.module('gradfile', ['file_service']);
 
 app.config(function($routeProvider) {
     $routeProvider.
-	//when('/', {controller:FileController, templateUrl:'/static/index.html'}).    
+	//when('/', {controller:LoginController, templateUrl:'/static/index.html'});
 	//when('/upload', {controller:UploadController, templateUrl:'/static/upload.html'}).
-    when('/list', {controller:FileController, templateUrl:'static/index.html'})
+    when('/list', {controller:FileController, templateUrl:'static/index.html'});
 });
-/*
-function UploadController($scope, $routeParams,FileDB) {  
-    console.log('Execute');
 
-    $('iframe#upload_target').load(function() {
-        var data = $.parseJSON($('iframe#upload_target').contents().find("body")[0].innerHTML);
-        if(data.success) {
-            $scope.$apply(function(){
-            $scope.success = true;
-            });
-        } else {
-            $scope.$apply(function() {
-            $scope.success = false;
-            $scope.message = data.message;
-            });
-        }
-    });      
+function LoginController($scope, $http) {
+    $scope.user = {username:'pk'};
+  $scope.login = function() {        
+    $http.post('/login', {username:$scope.username, password:$scope.password}).success(function(result) {
+      console.log("succcess");
+      console.log(result);
+      if(result.success) {          
+        $('#loginModal').modal('hide');
+        $scope.user = result.user;        
+      }
+    });                                    
+  };       
+  
+}
 
-    $scope.setFile = function(element) {
-        $scope.$apply(function() {
-            $scope.theFile = element.files[0];
+function FileController($scope,$routeParams,$http, FileDB) {        
+    console.log('Run FileController');
+    $scope.file_list = FileDB.query(function(result){
+        console.log('file list');
+        console.log(result);
         });
-    };
     
-};
-*/
-
-function FileController($scope,$routeParams,FileDB) {        
-    $scope.file_list = FileDB.query();
         
     $scope.showFormPage = false;
     $scope.viewForm = function() {
@@ -57,15 +51,9 @@ function FileController($scope,$routeParams,FileDB) {
             });
         }
     }
+    ); 
     
-    );      
-
-    $scope.setFile = function(element) {
-        $scope.$apply(function() {
-            $scope.theFile = element.files[0];
-        });
-    };
-            
+    
     $('.dropdown-toggle').dropdown();
         
     $scope.del = function(id) {
@@ -76,6 +64,8 @@ function FileController($scope,$routeParams,FileDB) {
         });
     };    
     
+    
+    
     $scope.currentPage = 0;
     $scope.page = 0;
     $scope.pageSize = 2;    
@@ -83,15 +73,33 @@ function FileController($scope,$routeParams,FileDB) {
     $scope.numberOfPages=function() {        
         var totalPage = Math.ceil($scope.file_list.length/$scope.pageSize);               
         return totalPage;          
-    };        
+    };  
     
+    
+     $scope.onTwitterLogin = function()
+    {
+      //console.log("succcess");
+        // a direct window.location to overcome Angular intercepting your call!
+        window.location = "/auth/twitter";
+        
+    }
+
+    $scope.onFacebookLogin = function () {
+
+    }
+    
+      
+  
 
 };
 
 app.filter('startFrom', function() {
-    return function(input, start) {
+    return function(input, start) {        
         start = +start; //parse to int
-        return input.slice(start);
+        if(input) {
+            return input.slice(start);
+        } 
+        return [];
     }
 });
 
