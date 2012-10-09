@@ -87,7 +87,9 @@ exports.deleteFile = function(req, res, next) {
 exports.listFile = function(req, res, next) {  
   // req.params [year, element, type, item]  
   console.log('listFile ');
-  req.database.collection('fs.files', function(err, collection) {
+  var db = req.db;
+  console.log('listFile ');
+  db.collection('fs.files', function(err, collection) {
     if(err) {            
       console.log("Error :"+err);
       res.json({success:false,message:err});              

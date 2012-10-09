@@ -1,12 +1,18 @@
 
-<div class="span12">
-    <p>
-        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#uploadFileModal"><i class="icon-upload  icon-white"></i> Upload file</button>
-    </p>
+<div class="span12" ng-hide="user">
+  <div class="alert">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <strong>Warning!</strong> The system requires you to sign on
+  </div>
 </div>
 
+<div class="span12" ng-show="user">
+  <p>
+    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#uploadFileModal"><i class="icon-upload  icon-white"></i> Upload file</button>
+  </p>
+</div>
 
-<div class="span12">
+<div class="span12" ng-show="user">
   <table class="table span9">
     <tr> 
       <td class="span5">Name</td>
@@ -17,14 +23,6 @@
       <td>{{file.metadata.title}}</td>
       <td>
         <span>{{file.filename}}</span>
-          <!--
-          <span class="pull-right">
-              <a href="/files/{{file._id}}" target="_blank"><i class=" icon-file"></i></a> | <i class="icon-remove" ng-click="del(file._id)"></i>
-          </span>
-          -->
-          <!--
-          <br>            
-          <small class="muted pull-right">{{file._id}}</small>-->  
         <span class="pull-right">  
           <div class="dropdown">
             <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i><b class="caret"></b></a>
@@ -44,14 +42,13 @@
 </div>
 
     
-<div class="span9">            
-    <span class="form-inline pull-right">
-        #Item per Page <input type="text" ng-model="pageSize" class="span1">
-        <button class="btn btn-primary" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">Previous</button>
-        <input type="text" class="span1" ng-model="currentPage"> / {{numberOfPages()}}
-        <button class="btn btn-primary"  ng-disabled="currentPage >= file_list.length/pageSize - 1" ng-click="currentPage=currentPage+1">Next</button>
-    </span>
-
+<div class="span9" ng-show="user">            
+  <span class="form-inline pull-right">
+    #Item per Page <input type="text" ng-model="pageSize" class="span1">
+    <button class="btn btn-primary" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">Previous</button>
+    <input type="text" class="span1" ng-model="currentPage"> / {{numberOfPages()}}
+    <button class="btn btn-primary"  ng-disabled="currentPage >= file_list.length/pageSize - 1" ng-click="currentPage=currentPage+1">Next</button>
+  </span>
 </div>
 
 
@@ -74,15 +71,16 @@
         <span class="btn btn-success fileinput-button span3">
           <i class="icon-plus icon-white"></i>
             <span>Select File</span>
-              <input type="file" name="file" id="file" onchange="angular.element(this).scope().setFile(this)"/>
-            </span>                
-      </div>
+            <input type="file" name="file" id="file" onchange="angular.element(this).scope().setFile(this)"/>
+        </span>                
+      </div><!---div class="span12"--->
             
       <div class="span12">        
         <ul class="span12">
           <li ng-repeat="file in file_item.files">{{file.filename}} </li>
         </ul>
-      </div>
+      </div><!--div class="span12"--->
+      
       <div class="span12">        
         <span>
           <span ng-show="theFile">
@@ -99,30 +97,15 @@
             <span ng-switch-default></span>              
           </span>
         </span>              
-      </div>
-    </div>
+      </div><!--div class="span12"--->
+    </div><!--class="modal-body"--->
    
     <div class="modal-footer">                    
       <button type="submit" class="btn btn-primary start">
         <i class="icon-upload icon-white"></i>
         <span>Start Upload</span>
       </button>                                
-    </div>
-  </div>
-
+    </div><!--div class="modal-footer"---->
+  </div><!--class="modal hide fade"-->
 </form>
-<!--
-<iframe id="upload_target1" 	name="upload_target1" 	style="width:0;height:0;border:0px solid #fff;"> </iframe>  
 
-<form id="file_upload_form1" method="post"  action="login" target="upload_target1" class="form-horizontal">   -->
-<form action="login" method="post">
-    <div>
-    <label>Username:</label>
-    <input type="text" name="username"/><br/>
-    </div><div>
-    <label>Password:</label>
-    <input type="password" name="password"/>
-    </div><div>
-    <input type="submit" value="Log In"/>
-    </div>
-</form>
