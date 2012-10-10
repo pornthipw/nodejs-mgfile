@@ -1,9 +1,12 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+
+var OpenIDStrategy = require('passport-openid').Strategy;
+var GoogleStrategy = require('passport-google').Strategy;
 var flash = require('connect-flash');
 
 module.exports.passport = passport;
-
+/*
 var users = [
     { id: 1, username: 'nook', password: '1234', email: 'bob@example.com' , roles:["admin"]}
   , { id: 2, username: 'joe', password: 'birthday', email: 'joe@example.com', roles:["user"] }
@@ -52,7 +55,48 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
+*/
+
+passport.serializeUser(function(user, done) {
+  done(null, user.identifier);
+});
+
+passport.deserializeUser(function(identifier, done) {
+  done(null, { identifier: identifier });
+});
+
+passport.use(new GoogleStrategy({
+    //returnURL: 'http://www.example.com/auth/openid/return',
+    //realm: 'http://www.example.com/',
+    returnURL: 'http://localhost:8083/auth/google/return',
+    realm: 'http://localhost:8083/'
+    //profile: true
+  },
+  //function(identifier, profile, done) {
+  function(identifier, profile,done) {
+    User.findOrCreate({ openId: identifier }, function (err, user) {
+      return done(err, user);
+    });
+  }
+));
 
 
+/*
+strategy.saveAssociation(function(handle, provider, algorithm, secret, expiresIn, done) {
+  // custom storage implementation
+  saveAssoc(handle, provider, algorithm, secret, expiresIn, function(err) {
+    if (err) { return done(err) }
+    return done();
+  });
+});
 
+strategy.loadAssociation(function(handle, done) {
+  // custom retrieval implementation
+  loadAssoc(handle, function(err, provider, algorithm, secret) {
+    if (err) { return done(err) }
+    return done(null, provider, algorithm, secret)
+  });
+});
+
+*/
 

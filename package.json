@@ -9,6 +9,8 @@
     "passport": ">= 0.0.0",
     "passport-local": ">= 0.0.0",
     "connect-flash": "0.1.x",
-    "connect-roles":"*"
+    "connect-roles":"*",
+    "passport-openid":">= 0.0.0",
+    "passport-google":">= 0.0.0"
   }
 }

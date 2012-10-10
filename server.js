@@ -5,6 +5,7 @@ var _ = require('underscore');
 
 var config = require('./config');
 var routes = require('./routes');
+
 //var utils = require('./utils');
 
 var app = module.exports.app = express();
@@ -68,13 +69,27 @@ app.locals({
   baseHref:config.site.baseUrl
 });
 
+
+app.post('/auth/google', 
+  passport.authenticate('google', { failureRedirect: '/' }),
+  function(req, res) {
+    //res.redirect('/');
+    res.json({success:true,user: req.user});  
+});
+
+app.get('/auth/google/return', 
+  passport.authenticate('google', { successRedirect: '/'}),
+  function(req,res) {
+    res.json({'status':'success'});
+});
+
 app.get('/userinfo', function (req,res, next){
   if (req.isAuthenticated()) {  
     return next();
   }
   res.json({'error':123});
 });
-
+/*
 app.post('/login',
   function(req, res, next) {
     passport.authenticate('local', function(err, user) {
@@ -91,19 +106,25 @@ app.post('/login',
     return;
   }
 );
+*/
+
+
+
 
 app.get('/test', ensureAuthenticated, function(req, res) {
   res.json({'status':1})
 });
-
 
 //
 app.get('/:db/files', ensureAuthenticated, routes.listFile);
 app.get('/files/:file', middleware, routes.getFile);
 app.del('/files/:file', middleware, routes.deleteFile);
 app.post('/upload', middleware, routes.storeFile);
-app.get('/', middleware, routes.index);
+//app.get('/', middleware, routes.index);
 
+app.get('/', function(req, res){
+  res.render('index', { user: req.user });
+})
 
 // test csv reader
 app.get('/csv', middleware, function(req, res) {
@@ -117,7 +138,6 @@ app.get('/csv', middleware, function(req, res) {
 app.listen(config.site.port || 3000);
 
 console.log("Mongo Express server listening on port " + (config.site.port || 3000));
-
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {  

@@ -7,9 +7,10 @@ app.config(function($routeProvider) {
 });
 
 function LoginController($scope, $http) {
-  $scope.user = {username:'pk'};
+  //$scope.user = {username:'pk'};
   $scope.login = function() {        
-    $http.post('login', {username:$scope.username, password:$scope.password}).success(function(result) {
+    //$http.post('login', {username:$scope.username, password:$scope.password}).success(function(result) {
+      $http.post('auth/google', {identifier:$scope.openid_identifier}).success(function(result) {
       console.log("succcess");
       console.log(result);
       if(result.success) {          
