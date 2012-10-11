@@ -1,7 +1,6 @@
 var mongodb = require('mongodb');
 var config = require('../config');
 
-
 //Add routes from other files
 
 exports.index = function(req, res) {
@@ -16,12 +15,12 @@ exports.index = function(req, res) {
 };
 
 exports.getFile = function(req, res, next) {
-    //var gridStore = new mongodb.GridStore(req.database, mongodb.ObjectID,req.files.file.name, 'w');
+    var db = req.db;
     if (req.params.file.length == 24) {
     //Convert id string to mongodb object ID
 	try {
 	    id = new mongodb.ObjectID.createFromHexString(req.params.file);
-	    var gridStore = new mongodb.GridStore(req.database, id, 'r');
+	    var gridStore = new mongodb.GridStore(db, id, 'r');
 	    gridStore.open(function(err, gs) {
 		gs.collection(function(err, collection) {
 		    collection.find({_id:id}).toArray(function(err,docs) {
@@ -48,12 +47,13 @@ exports.getFile = function(req, res, next) {
 
 exports.deleteFile = function(req, res, next) {
     console.log('deleteFile '+req.params.file);
+    var db = req.db;
     if (req.params.file.length == 24) {
         try {
             id = new mongodb.ObjectID.createFromHexString(req.params.file);
-            mongodb.GridStore.exist(req.database, id, function(err, exist) {   
+            mongodb.GridStore.exist(db, id, function(err, exist) {   
                 if(exist) {
-                    var gridStore = new mongodb.GridStore(req.database, id, 'w');
+                    var gridStore = new mongodb.GridStore(db, id, 'w');
                     gridStore.open(function(err, gs) {                        
                         gs.unlink(function(err, result) { 
                             if(!err) {                              
@@ -63,15 +63,6 @@ exports.deleteFile = function(req, res, next) {
                                 console.log(err);
                             }
                         });                        
-                        /*
-                        gs.collection(function(err, collection){
-                            collection.find({_id:id}).toArray(function(err,docs){
-                                var doc = docs[0];
-                                console.log(doc.filename);
-                                var streame = gs.stream(true);
-                            });
-                        });
-                        */
                     });//gridStore.open()
                 } else {
                     console.log(id +' does not exists');
@@ -107,9 +98,9 @@ exports.listFile = function(req, res, next) {
 };
 
 exports.storeFile = function(req, res, next) {      
-  
+  var db = req.db;
   if(req.files.file) {          
-    var gridStore = new mongodb.GridStore(req.database, new mongodb.ObjectID(),req.files.file.name, 'w', {content_type:req.files.file.type,metadata: {'title':req.body.title}});    
+    var gridStore = new mongodb.GridStore(db, new mongodb.ObjectID(),req.files.file.name, 'w', {content_type:req.files.file.type,metadata: {'title':req.body.title}});    
     gridStore.open(function(err, gridStore) {
       gridStore.writeFile(req.files.file.path, function(err, doc) {                
         if(err) {          

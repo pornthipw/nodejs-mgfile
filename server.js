@@ -37,25 +37,25 @@ app.param('db', function(req, res, next) {
     } else {
       var required_authen = false;
       for(var idx in config.mongodb.auth) {
-	if(config.mongodb.auth[idx].name == req.params.db) {
-	  required_authen = true;
-	  db.authenticate(config.mongodb.auth[idx].username, config.mongodb.auth[idx].password, function(err,result) {
-	    if(err) {
-	      res.send(500, err);
-	    } else {
-	      if(result) {
-		req.db = db;
-		next();
-	      } else {
-		res.send(403, 'Unauthorized');
-	      }
-	    }
-	  });
-	}
+        if(config.mongodb.auth[idx].name == req.params.db) {
+          required_authen = true;
+          db.authenticate(config.mongodb.auth[idx].username, config.mongodb.auth[idx].password, function(err,result) {
+            if(err) {
+              res.send(500, err);
+            } else {
+              if(result) {
+                req.db = db;
+                next();
+              } else {
+                res.send(403, 'Unauthorized');
+              }
+            }
+          });
+        }
       }
       if(!required_authen) {
-	req.db = db;
-	next();
+        req.db = db;
+        next();
       }
     }
   });
@@ -69,7 +69,7 @@ app.locals({
   baseHref:config.site.baseUrl
 });
 
-
+/*
 app.post('/auth/google', 
   passport.authenticate('google', { failureRedirect: '/' }),
   function(req, res) {
@@ -82,33 +82,33 @@ app.get('/auth/google/return',
   function(req,res) {
     res.json({'status':'success'});
 });
+*/
 
-app.get('/userinfo', function (req,res, next){
-  if (req.isAuthenticated()) {  
-    return next();
+
+app.get('/userinfo', function(req, res, next) {
+  if(req.isAuthenticated()) {
+    res.json(req.user);
+  } else {
+    res.json({});
   }
-  res.json({'error':123});
 });
-/*
+
 app.post('/login',
   function(req, res, next) {
     passport.authenticate('local', function(err, user) {
       if (err) { return next(err) }
         if (!user) {
-	  res.locals.username = req.param('username');
-	  return res.render('index', { error: true });
+          res.locals.username = req.param('username');
+          return res.render('index', { error: true });
         }
-	req.login(user, {}, function(err) {
-	  if (err) { return next(err) };
-	  res.json({success:true,user: req.user});         
-	});
+        req.login(user, {}, function(err) {
+          if (err) { return next(err) };
+          res.json({success:true,user: req.user});         
+        });
     })(req, res, next);
     return;
   }
 );
-*/
-
-
 
 
 app.get('/test', ensureAuthenticated, function(req, res) {
@@ -117,12 +117,13 @@ app.get('/test', ensureAuthenticated, function(req, res) {
 
 //
 app.get('/:db/files', ensureAuthenticated, routes.listFile);
-app.get('/files/:file', middleware, routes.getFile);
-app.del('/files/:file', middleware, routes.deleteFile);
-app.post('/upload', middleware, routes.storeFile);
+app.get('/:db/files/:file', middleware, routes.getFile);
+app.del('/:db/files/:file', middleware, routes.deleteFile);
+app.post('/:db/upload', middleware, routes.storeFile);
 //app.get('/', middleware, routes.index);
 
 app.get('/', function(req, res){
+  console.log('User name :' + req.user);
   res.render('index', { user: req.user });
 })
 

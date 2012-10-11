@@ -6,16 +6,18 @@ app.config(function($routeProvider) {
     when('/list', {controller:FileController, templateUrl:'static/index.html'});
 });
 
-function LoginController($scope, $http) {
-  //$scope.user = {username:'pk'};
-  $scope.login = function() {        
-    //$http.post('login', {username:$scope.username, password:$scope.password}).success(function(result) {
-      $http.post('auth/google', {identifier:$scope.openid_identifier}).success(function(result) {
+function LoginController($scope,  $http) {
+  $scope.login = function() {    
+    //for local
+    $http.post('login', {username:$scope.username, password:$scope.password}).success(function(result) {
+    //for google   
+      //$http.post('auth/google', {identifier:$scope.openid_identifier,value:"https://www.google.com/accounts/o8/id"/}).success(function(result) {
       console.log("succcess");
       console.log(result);
       if(result.success) {          
         $('#loginModal').modal('hide');
-        $scope.user = result.user;        
+        $scope.user = result.user; 
+	//$location.path('#/');       
       }
     });                                    
   };       
@@ -28,20 +30,19 @@ function FileController($scope,FileDB, User) {
     User.get(function(userInfo) {
     if(userInfo.username) {
       $scope.user = userInfo;
-      //$scope.file_list = FileDB.query(function(result) {
-       // console.log(result);
+      $scope.file_list = FileDB.query(function(result) {
+        console.log(result);
       });
     } else {
       
     }
     */
     
-    $scope.file_list = FileDB.query(function(result){
-      console.log('file list');
-      console.log(result);
-    });
     
-
+    $scope.file_list = FileDB.query(function(result){
+      //console.log('file list');
+      //console.log("result--->"+result);
+    });
     
     $('iframe#upload_target').load(function() {
       var data = $.parseJSON($('iframe#upload_target').contents().find("body")[0].innerHTML);
@@ -59,6 +60,12 @@ function FileController($scope,FileDB, User) {
 	});
       }
     });
+    
+    $scope.setFile = function(element) {
+      $scope.$apply(function() {
+	$scope.theFile = element.files[0];
+      });
+    }
     
     $('.dropdown-toggle').dropdown();
         
@@ -78,6 +85,8 @@ function FileController($scope,FileDB, User) {
       var totalPage = Math.ceil($scope.file_list.length/$scope.pageSize);               
       return totalPage;          
     };  
+    
+    
     
     
 };

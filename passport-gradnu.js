@@ -6,7 +6,7 @@ var GoogleStrategy = require('passport-google').Strategy;
 var flash = require('connect-flash');
 
 module.exports.passport = passport;
-/*
+
 var users = [
     { id: 1, username: 'nook', password: '1234', email: 'bob@example.com' , roles:["admin"]}
   , { id: 2, username: 'joe', password: 'birthday', email: 'joe@example.com', roles:["user"] }
@@ -55,8 +55,9 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-*/
 
+
+/*
 passport.serializeUser(function(user, done) {
   done(null, user.identifier);
 });
@@ -66,11 +67,13 @@ passport.deserializeUser(function(identifier, done) {
 });
 
 passport.use(new GoogleStrategy({
-    //returnURL: 'http://www.example.com/auth/openid/return',
+    //returnURL: 'http://www.example.com/auth/openid/return',http://openid-provider.appspot.com/Pornthip.wong/
     //realm: 'http://www.example.com/',
-    returnURL: 'http://localhost:8083/auth/google/return',
-    realm: 'http://localhost:8083/'
-    //profile: true
+    returnURL:'http://openid-provider.appspot.com/auth/google/return/',
+    //returnURL: 'http://localhost:8083/auth/google/return',
+    realm:'http://openid-provider.appspot.com/',
+    //realm: 'http://localhost:8083/'
+    profile: true
   },
   //function(identifier, profile, done) {
   function(identifier, profile,done) {
@@ -79,7 +82,7 @@ passport.use(new GoogleStrategy({
     });
   }
 ));
-
+*/
 
 /*
 strategy.saveAssociation(function(handle, provider, algorithm, secret, expiresIn, done) {

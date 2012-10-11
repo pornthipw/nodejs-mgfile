@@ -102,20 +102,23 @@
       <div class="modal-body">
         <form class="form-horizontal">
           <div class="control-group">
-            <label class="control-label" for="inputUsername"><!--Username{{user.username}}--> OPENID </label>
+            <label class="control-label" for="inputUsername">Username{{user.username}} </label>
             <div class="controls">
-              <!--<input type="text" id="inputUsername" ng-model="username">-->
-              <input type="text" name="openid_identifier"/>
+              <!--for local-->
+              <input type="text" id="inputUsername" ng-model="username">
+              
+              <!---for google--->
+              <!--<input type="text" id="inputUsername" name="openid_identifier" ng-model="openid_identifier"/>-->
             </div><!---class="controls"-->                
           </div><!--class="control-group"--->
-          <!--     
+              
           <div class="control-group">
             <label class="control-label" for="inputPassword">Password</label>
               <div class="controls">
                 <input type="password" id="inputPassword" ng-model="password">
               </div>                
           </div>
-          -->
+         
           
       </div>        
                     
