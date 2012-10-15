@@ -8,16 +8,12 @@ app.config(function($routeProvider) {
 
 function LoginController($scope,  $http) {
   $scope.login = function() {    
-    //for local
     $http.post('login', {username:$scope.username, password:$scope.password}).success(function(result) {
-    //for google   
-      //$http.post('auth/google', {identifier:$scope.openid_identifier,value:"https://www.google.com/accounts/o8/id"/}).success(function(result) {
       console.log("succcess");
       console.log(result);
       if(result.success) {          
         $('#loginModal').modal('hide');
-        $scope.user = result.user; 
-	//$location.path('#/');       
+        $scope.user = result.user;     
       }
     });                                    
   };       
@@ -25,23 +21,17 @@ function LoginController($scope,  $http) {
 }
 
 function FileController($scope,FileDB, User) {        
-    console.log('Run FileController');
-    /*
+    console.log('Run FileController');              
+    
     User.get(function(userInfo) {
-    if(userInfo.username) {
-      $scope.user = userInfo;
-      $scope.file_list = FileDB.query(function(result) {
-        console.log(result);
-      });
-    } else {
+      if(userInfo.identifier) {
+	$scope.user = userInfo.identifier;
+	$scope.file_list = FileDB.query(function(result) {
+	  console.log(result);
+	});
+      } else {
       
-    }
-    */
-    
-    
-    $scope.file_list = FileDB.query(function(result){
-      //console.log('file list');
-      //console.log("result--->"+result);
+      }
     });
     
     $('iframe#upload_target').load(function() {
@@ -81,13 +71,12 @@ function FileController($scope,FileDB, User) {
     $scope.page = 0;
     $scope.pageSize = 2;    
     
-    $scope.numberOfPages=function() {        
-      var totalPage = Math.ceil($scope.file_list.length/$scope.pageSize);               
-      return totalPage;          
-    };  
-    
-    
-    
+    $scope.numberOfPages=function() {
+      if($scope.file_list) {        
+	var totalPage = Math.ceil($scope.file_list.length/$scope.pageSize);               
+	return totalPage;          
+      }
+    };              
     
 };
 

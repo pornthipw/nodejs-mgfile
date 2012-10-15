@@ -10,7 +10,32 @@ var routes = require('./routes');
 
 var app = module.exports.app = express();
 
-var passport = require("./passport-gradnu").passport;
+var passport = require('passport');
+var OpenIDStrategy = require('passport-openid').Strategy;
+
+
+passport.serializeUser(function(user, done) {
+  console.log('18 -'+user);
+  done(null, user.identifier);
+});
+
+passport.deserializeUser(function(identifier, done) {
+  console.log('23 -'+identifier);
+  done(null, { identifier: identifier });
+});
+
+passport.use(new OpenIDStrategy({
+    returnURL: 'http://localhost:8083/auth/openid/return',
+    realm: 'http://localhost:8083/'
+  },
+  function(identifier, done) {    
+    process.nextTick(function () {          
+      console.log('31 -'+identifier);
+      return done(null, { identifier: identifier })
+    });    
+  }
+));
+
 
 app.configure(function() {
   app.use(express.bodyParser());
@@ -69,21 +94,13 @@ app.locals({
   baseHref:config.site.baseUrl
 });
 
-/*
-app.post('/auth/google', 
-  passport.authenticate('google', { failureRedirect: '/' }),
+app.get('/auth/openid', passport.authenticate('openid'));
+
+app.get('/auth/openid/return', 
+  passport.authenticate('openid', { failureRedirect: '/login' }),
   function(req, res) {
-    //res.redirect('/');
-    res.json({success:true,user: req.user});  
-});
-
-app.get('/auth/google/return', 
-  passport.authenticate('google', { successRedirect: '/'}),
-  function(req,res) {
-    res.json({'status':'success'});
-});
-*/
-
+    res.redirect('/');
+  });
 
 app.get('/userinfo', function(req, res, next) {
   if(req.isAuthenticated()) {
@@ -109,7 +126,6 @@ app.post('/login',
     return;
   }
 );
-
 
 app.get('/test', ensureAuthenticated, function(req, res) {
   res.json({'status':1})

@@ -6,7 +6,7 @@ var GoogleStrategy = require('passport-google').Strategy;
 var flash = require('connect-flash');
 
 module.exports.passport = passport;
-
+/*
 var users = [
     { id: 1, username: 'nook', password: '1234', email: 'bob@example.com' , roles:["admin"]}
   , { id: 2, username: 'joe', password: 'birthday', email: 'joe@example.com', roles:["user"] }
@@ -54,10 +54,10 @@ passport.deserializeUser(function(id, done) {
     done(err, user);
   });
 });
+*/
 
 
 
-/*
 passport.serializeUser(function(user, done) {
   done(null, user.identifier);
 });
@@ -82,7 +82,7 @@ passport.use(new GoogleStrategy({
     });
   }
 ));
-*/
+
 
 /*
 strategy.saveAssociation(function(handle, provider, algorithm, secret, expiresIn, done) {
