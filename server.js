@@ -25,8 +25,8 @@ passport.deserializeUser(function(identifier, done) {
 });
 
 passport.use(new OpenIDStrategy({
-    returnURL: 'http://localhost:8083/auth/openid/return',
-    realm: 'http://localhost:8083/'
+    returnURL: config.site.baseUrl+ 'auth/openid/return',
+    realm: config.site.baseUrl
   },
   function(identifier, done) {    
     process.nextTick(function () {          
