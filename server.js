@@ -3,6 +3,7 @@ var mongodb = require('mongodb');
 var handlebars = require('hbs');
 var _ = require('underscore');
 
+
 var config = require('./config');
 var routes = require('./routes');
 
@@ -134,7 +135,7 @@ app.get('/test', ensureAuthenticated, function(req, res) {
 //
 app.get('/:db/files', ensureAuthenticated, routes.listFile);
 app.get('/:db/files/:file', middleware, routes.getFile);
-app.del('/:db/files/:file', middleware, routes.deleteFile);
+//app.del('/:db/files/:file', middleware, routes.deleteFile);
 app.post('/:db/upload', middleware, routes.storeFile);
 //app.get('/', middleware, routes.index);
 
