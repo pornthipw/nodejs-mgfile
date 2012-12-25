@@ -1,5 +1,6 @@
 {
   "name" : "nodejs-mgfile",
+  "user" : "pornthipw",
   "version" : "0.0.1",
   "dependencies" : {
     "express" : "*",    
@@ -12,5 +13,8 @@
     "connect-roles":"*",
     "passport-openid":">= 0.0.0",
     "passport-google":">= 0.0.0"
+  },
+  "scripts" : {
+    "start" : "server.js"
   }
 }
