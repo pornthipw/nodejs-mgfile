@@ -59,14 +59,6 @@ function FileController($scope,FileDB, User) {
     
     $('.dropdown-toggle').dropdown();
         
-    $scope.del = function(id) {
-      console.log(id);
-      FileDB.remove({id:id}, function(docs) {
-	console.log('remove');
-	$scope.file_list = FileDB.query();    
-      });
-    };    
-    
     $scope.currentPage = 0;
     $scope.page = 0;
     $scope.pageSize = 2;    

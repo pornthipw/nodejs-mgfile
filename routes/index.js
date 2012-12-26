@@ -44,7 +44,7 @@ exports.getFile = function(req, res, next) {
     }    
     console.log('getFile '+req.params.file);
 };
-
+/*
 exports.deleteFile = function(req, res, next) {
     console.log('deleteFile '+req.params.file);
     var db = req.db;
@@ -73,7 +73,7 @@ exports.deleteFile = function(req, res, next) {
         }
     }
 };
-
+*/
 
 exports.listFile = function(req, res, next) {  
   // req.params [year, element, type, item]  
